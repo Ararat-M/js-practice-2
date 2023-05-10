@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
+    <script defer src="./script.js"></script>
     <title>Document</title>
 </head>
 <body>
@@ -16,27 +17,30 @@
         <form action="#" class="form-student">
             <!-- name -->
             <label for="input-name">Имя</label>
-            <input id="input-name" type="text" required autocomplete="none">
+            <input id="input-name" type="text" autocomplete="none">
             <!-- surname -->
             <label for="input-surname">Фамилия</label>
-            <input id="input-surname" type="text" required autocomplete="none">
+            <input id="input-surname" type="text" autocomplete="none">
             <!-- middlename -->
             <label for="input-middlename">Отчество</label>
-            <input id="input-middlename" type="text" required autocomplete="none">
+            <input id="input-middlename" type="text" autocomplete="none">
             <!-- birthday -->
             <label for="input-birthday">Дата рождения</label>
-            <input id="input-birthday" type="date" required autocomplete="none">
+            <input id="input-birthday" type="date" autocomplete="none">
             <!-- start-learning -->
             <label for="input-start-learning">Год начала обучения</label>
-            <input id="input-start-learning" type="number" required autocomplete="none">
+            <input id="input-start-learning" type="number" autocomplete="none">
             <!-- faculty -->
             <label for="input-faculty">Факультет</label>
-            <input id="input-faculty" type="text" required autocomplete="none">
+            <input id="input-faculty" type="text" autocomplete="none">
             <!-- submit-btn -->
             <button type="submit-btn">
                 Добавить студента
             </button>
         </form>
+        <ul class="student-list">
+
+        </ul>
     </main>
 </body>
 </html>
