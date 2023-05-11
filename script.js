@@ -28,14 +28,14 @@ const studentsArr = [
 ];
 
 function addStudent(name, surname, middlename, birthday, startLearning, faculty) {
-    const student = {
+    const student = transformData({
         name,
         surname,
         middlename,
         birthday,
         startLearning,
         faculty
-    };
+    });
     
     return studentsArr.push(student)
 }
@@ -45,11 +45,11 @@ formStudend.addEventListener("submit", () => {
 
     const inputs = [inputName, inputSurname, inputMiddlename, inputBirthday, inputStartLearning, inputFaculty];
 
-    if (inputsIsEmpty(inputs)) validate = false;
+    // if (inputsIsEmpty(inputs)) validate = false;
 
-    if (!validateBirthday(inputBirthday)) validate = false;
+    // if (!validateBirthday(inputBirthday)) validate = false;
 
-    if (!validateStartLearning(inputStartLearning)) validate = false;
+    // if (!validateStartLearning(inputStartLearning)) validate = false;
 
     if (validate) {
         const studentName = inputName.value;
@@ -110,6 +110,27 @@ function validateInput(criteria, input) {
     input.classList.add("input_error");
 
     return false
+}
+
+function transformData(studentData) {
+    //birthday
+    const birthday = new Date(`${studentData.birthday}T00:00:00`);
+    const today = new Date();
+
+    let StudentAge = today.getFullYear() - birthday.getFullYear();
+
+    const nextBirthday = birthday.setFullYear(`${birthday.getFullYear() + StudentAge}`)
+    
+    if (nextBirthday > today) {
+        StudentAge -= 1;
+    }
+    
+    studentData.birthday = studentData.birthday
+                            .split("-")
+                            .join(".")
+                            + ` (${StudentAge} лет)`;
+    // years of study (start learning)
+    
 }
 
 function updateStudentList() {
