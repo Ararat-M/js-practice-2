@@ -113,40 +113,44 @@ function validateInput(criteria, input) {
 }
 
 function updateStudentList() {
+    while (document.querySelector(".student")) {
+        document.querySelector(".student").remove();
+    };
+
     const studentListNode = document.querySelector(".student-list");
     
     studentsArr.forEach(student => {
         const studentNode = document.createElement("li");
-        studentNode.classList.add("student", "student-list__student")
+        studentNode.classList.add("student", "student-list__item")
 
         // name
         const studentNameNode = document.createElement("span");
-        studentNameNode.classList.add("student__name");
+        studentNameNode.classList.add("student__name", "student__info");
         studentNameNode.textContent = student.name;
         studentNode.append(studentNameNode);
         // surname
         const studentSurnameNode = document.createElement("span");
-        studentSurnameNode.classList.add("student__surname")
+        studentSurnameNode.classList.add("student__surname", "student__info")
         studentSurnameNode.textContent = student.surname;
         studentNode.append(studentSurnameNode);
         // middlename
         const studentMiddlenameNode = document.createElement("span");
-        studentMiddlenameNode.classList.add("student__middlename")
+        studentMiddlenameNode.classList.add("student__middlename", "student__info")
         studentMiddlenameNode.textContent = student.middlename;
         studentNode.append(studentMiddlenameNode);
         // birthday
         const studentBirthdayNode = document.createElement("span");
-        studentBirthdayNode.classList.add("student__birthday")
+        studentBirthdayNode.classList.add("student__birthday", "student__info")
         studentBirthdayNode.textContent = student.birthday;
         studentNode.append(studentBirthdayNode);
         // start learning
         const studentStartLearningNode = document.createElement("span");
-        studentStartLearningNode.classList.add("student__start-learning");
+        studentStartLearningNode.classList.add("student__start-learning", "student__info");
         studentStartLearningNode.textContent = student.startLearning;
         studentNode.append(studentStartLearningNode);
         // faculty
         const studentFacultyNode = document.createElement("span");
-        studentFacultyNode.classList.add("student__faculty");
+        studentFacultyNode.classList.add("student__faculty", "student__info");
         studentFacultyNode.textContent = student.faculty;
         studentNode.append(studentFacultyNode);
         // add student to list
