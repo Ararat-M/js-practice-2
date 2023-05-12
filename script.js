@@ -1,3 +1,5 @@
+const today = new Date();
+
 const formStudend = document.querySelector(".form-student");
 
 const inputName = document.querySelector("#input-name");
@@ -87,10 +89,11 @@ function inputsIsEmpty(inputs) {
 }
 
 function validateStartLearning(input) {
-    const date = input.value;
-    const [year, month, day] = date.split("-");
+    const startLearningYear = input.value;
+    
+    const criteria = startLearningYear == today.getFullYear() || startLearningYear > 2000 && startLearningYear < today.getFullYear();
 
-    return validateInput(year > 2000 && year < new Date().getFullYear(), input);
+    return validateInput(criteria, input);
 }
 
 function validateBirthday(input) {
@@ -115,11 +118,10 @@ function validateInput(criteria, input) {
 function transformData(studentData) {
     //birthday
     const birthday = new Date(`${studentData.birthday}T00:00:00`);
-    const today = new Date();
 
     let StudentAge = today.getFullYear() - birthday.getFullYear();
 
-    const nextBirthday = birthday.setFullYear(`${birthday.getFullYear() + StudentAge}`)
+    const nextBirthday = birthday.setFullYear(`${birthday.getFullYear() + StudentAge}`);
     
     if (nextBirthday > today) {
         StudentAge -= 1;
@@ -128,9 +130,25 @@ function transformData(studentData) {
     studentData.birthday = studentData.birthday
                             .split("-")
                             .join(".")
-                            + ` (${StudentAge} лет)`;
+                            + ` (${StudentAge} лет)`;                      
     // years of study (start learning)
+    const endLearningYear = Number(studentData.startLearning) + 4;
+    const endLearningDate = new Date(`${endLearningYear}-09-01T00:00:00`);
+    let currentCourse = today.getFullYear() - studentData.startLearning;
+
+    if (today > new Date(`${today.getFullYear()}-09-01T00:00:00`)) {
+        currentCourse += 1
+    }
+
+    if (today > endLearningDate) {
+        studentData.startLearning = `${studentData.startLearning}-${endLearningYear} (закончил)`;
+    } else if (currentCourse == 0) {
+        studentData.startLearning = `${studentData.startLearning}-${endLearningYear} (поступает в этом году)`;
+    } else {
+        studentData.startLearning = `${studentData.startLearning}-${endLearningYear} (${currentCourse} курс)`;
+    }
     
+    return studentData
 }
 
 function updateStudentList() {
