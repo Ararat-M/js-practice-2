@@ -2,12 +2,12 @@ const today = new Date();
 
 const formStudend = document.querySelector(".form-student");
 
-const inputName = document.querySelector("#input-name");
-const inputSurname = document.querySelector("#input-surname");
-const inputMiddlename = document.querySelector("#input-middlename");
-const inputBirthday = document.querySelector("#input-birthday");
-const inputStartLearning = document.querySelector("#input-start-learning");
-const inputFaculty = document.querySelector("#input-faculty");
+const inputName = document.querySelector("#form-student__input-name");
+const inputSurname = document.querySelector("#form-student__input-surname");
+const inputMiddlename = document.querySelector("#form-student__input-middlename");
+const inputBirthday = document.querySelector("#form-student__input-birthday");
+const inputStartLearning = document.querySelector("#form-student__input-start-learning");
+const inputFaculty = document.querySelector("#form-student__input-faculty");
 
 
 const studentsArr = [ 
@@ -131,7 +131,7 @@ function transformData(studentData) {
                             .split("-")
                             .join(".")
                             + ` (${StudentAge} лет)`;                      
-    // years of study (start learning)
+    // years of study (learning years)
     const endLearningYear = Number(studentData.startLearning) + 4;
     const endLearningDate = new Date(`${endLearningYear}-09-01T00:00:00`);
     let currentCourse = today.getFullYear() - studentData.startLearning;
@@ -162,36 +162,26 @@ function updateStudentList() {
         const studentNode = document.createElement("li");
         studentNode.classList.add("student", "student-list__item")
 
-        // name
-        const studentNameNode = document.createElement("span");
-        studentNameNode.classList.add("student__name", "student__info");
-        studentNameNode.textContent = student.name;
-        studentNode.append(studentNameNode);
-        // surname
-        const studentSurnameNode = document.createElement("span");
-        studentSurnameNode.classList.add("student__surname", "student__info")
-        studentSurnameNode.textContent = student.surname;
-        studentNode.append(studentSurnameNode);
-        // middlename
-        const studentMiddlenameNode = document.createElement("span");
-        studentMiddlenameNode.classList.add("student__middlename", "student__info")
-        studentMiddlenameNode.textContent = student.middlename;
-        studentNode.append(studentMiddlenameNode);
-        // birthday
-        const studentBirthdayNode = document.createElement("span");
-        studentBirthdayNode.classList.add("student__birthday", "student__info")
-        studentBirthdayNode.textContent = student.birthday;
-        studentNode.append(studentBirthdayNode);
-        // start learning
-        const studentStartLearningNode = document.createElement("span");
-        studentStartLearningNode.classList.add("student__start-learning", "student__info");
-        studentStartLearningNode.textContent = student.startLearning;
-        studentNode.append(studentStartLearningNode);
+        // fullname
+        const studentFullnameNode = document.createElement("span");
+        studentFullnameNode.classList.add("student__fullname", "student__info");
+        studentFullnameNode.textContent = [student.name, student.surname, student.middlename].join(" ");
+        studentNode.append(studentFullnameNode);
         // faculty
         const studentFacultyNode = document.createElement("span");
         studentFacultyNode.classList.add("student__faculty", "student__info");
         studentFacultyNode.textContent = student.faculty;
         studentNode.append(studentFacultyNode);
+        // birthday
+        const studentBirthdayNode = document.createElement("span");
+        studentBirthdayNode.classList.add("student__birthday", "student__info")
+        studentBirthdayNode.textContent = student.birthday;
+        // learning years
+        studentNode.append(studentBirthdayNode);
+        const studentStartLearningNode = document.createElement("span");
+        studentStartLearningNode.classList.add("student__learning-years", "student__info");
+        studentStartLearningNode.textContent = student.startLearning;
+        studentNode.append(studentStartLearningNode);
         // add student to list
         studentListNode.append(studentNode);
     })

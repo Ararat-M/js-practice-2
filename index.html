@@ -10,42 +10,50 @@
 </head>
 <body>
     <main class="main">
-        <div class="search">
-            <input class="search__input" type="text">
-            <button class="search_btn">Поиск</button>
-        </div>
+        <form action="#" class="form-search">
+            <!-- fullname -->
+            <label for="form-search__input-fullname">ФИО</label>
+            <input id="form-search__input-fulllname" class="form-search__input" type="text" autocomplete="none">
+            <!-- faculty -->
+            <label for="form-search__input-faculty">Факультет</label>
+            <input id="form-search__input-faculty" class="form-search__input" type="date" autocomplete="none">
+            <!-- birthday -->
+            <label for="form-search__input-birthday">Дата рождения</label>
+            <input id="form-search__input-birthday" class="form-search__input" type="text" autocomplete="none">
+            <!-- learning years -->
+            <label for="form-search__input-learning-years">Годы обучения</label>
+            <input id="form-search__input-learning-years" class="form-search__input" type="text" autocomplete="none">
+            <!-- submit-btn -->
+            <button class="form-search__submit-btn">Поиск</button>
+        </form>
         <form action="#" class="form-student">
             <!-- name -->
-            <label for="input-name">Имя</label>
-            <input id="input-name" type="text" autocomplete="none">
+            <label for="form-student__input-name">Имя</label>
+            <input id="form-student__input-name" type="text" autocomplete="none">
             <!-- surname -->
-            <label for="input-surname">Фамилия</label>
-            <input id="input-surname" type="text" autocomplete="none">
+            <label for="form-student__input-surname">Фамилия</label>
+            <input id="form-student__input-surname" type="text" autocomplete="none">
             <!-- middlename -->
-            <label for="input-middlename">Отчество</label>
-            <input id="input-middlename" type="text" autocomplete="none">
+            <label for="form-student__input-middlename">Отчество</label>
+            <input id="form-student__input-middlename" type="text" autocomplete="none">
             <!-- birthday -->
-            <label for="input-birthday">Дата рождения</label>
-            <input id="input-birthday" type="date" autocomplete="none">
-            <!-- start-learning -->
-            <label for="input-start-learning">Год начала обучения</label>
-            <input id="input-start-learning" type="number" autocomplete="none">
+            <label for="form-student__input-birthday">Дата рождения</label>
+            <input id="form-student__input-birthday" type="date" autocomplete="none">
+            <!-- start learning -->
+            <label for="form-student__input-start-learning">Год начала обучения</label>
+            <input id="form-student__input-start-learning" type="number" autocomplete="none">
             <!-- faculty -->
-            <label for="input-faculty">Факультет</label>
-            <input id="input-faculty" type="text" autocomplete="none">
+            <label for="form-student__input-faculty">Факультет</label>
+            <input id="form-student__input-faculty" type="text" autocomplete="none">
             <!-- submit-btn -->
-            <button type="submit-btn">
-                Добавить студента
-            </button>
+            <button type="form-student__submit-btn">Добавить студента</button>
         </form>
         <ul class="student-list">
             <div class="sort-panel student-list__item">
-                <span class="sort-panel__name sort-panel__element">Name</span>
-                <span class="sort-panel__surname sort-panel__element">Surname</span>
-                <span class="sort-panel__middlename sort-panel__element">Middlename</span>
-                <span class="sort-panel__birthday sort-panel__element">Birthday</span>
-                <span class="sort-panel__start-learning sort-panel__element">Start learning</span>
-                <span class="sort-panel__faculty sort-panel__element">Faculty</span>
+                <span class="sort-panel__fullname sort-panel__element">ФИО</span>
+                <span class="sort-panel__faculty sort-panel__element">Факультет</span>
+                <span class="sort-panel__birthday sort-panel__element">Дата рождения</span>
+                <span class="sort-panel__learning-years sort-panel__element">Годы обучения</span>
             </div>
         </ul>
     </main>

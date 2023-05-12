@@ -1,5 +1,13 @@
-*{
+* {
     box-sizing: border-box;
+}
+
+form {
+    margin-bottom: 15px;
+}
+
+input {
+    margin: 5px auto;
 }
 
 ul {
@@ -24,7 +32,7 @@ ul {
 
 .student-list__item {
     display: grid;
-    grid-template-columns: repeat(6, minmax(1px, 1fr));
+    grid-template-columns: repeat(4, minmax(1px, 1fr));
     word-wrap: break-word;
     text-align: center;
 }
