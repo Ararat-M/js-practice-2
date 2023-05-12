@@ -1,5 +1,6 @@
 const today = new Date();
 
+
 const formStudend = document.querySelector(".form-student");
 
 const inputName = document.querySelector("#form-student__input-name");
@@ -9,23 +10,25 @@ const inputBirthday = document.querySelector("#form-student__input-birthday");
 const inputStartLearning = document.querySelector("#form-student__input-start-learning");
 const inputFaculty = document.querySelector("#form-student__input-faculty");
 
+const formSearch = document.querySelector(".form-search")
+
+const inputSearchFullname = document.querySelector("#form-search__input-fullname");
+const inputSearchFaculty = document.querySelector("#form-search__input-faculty");
+const inputSearchStartLearningYear = document.querySelector("#form-search__input-start-learning-year");
+const inputSearchEndLearningYear = document.querySelector("#form-search__input-end-learning-year");
 
 const studentsArr = [ 
     {
-    name: "Alex",
-    surname: "Ivanov",
-    middlename: "Ivanovich",
-    birthday: "2001-10-21",
-    startLearning: "2013",
-    faculty: "1042-DVA"
+        fullname: "Ivanov Alex Ivanovich",
+        faculty: "1042-DVA",
+        birthday: "2001.10.21 (21 лет)",
+        learningYears: "2013-2017 (закончил)",
     }, 
     {
-        name: "Petr",
-        surname: "Kuznetcov",
-        middlename: "Yaroslavovich",
-        birthday: "1997-04-14",
-        startLearning: "2006",
-        faculty: "1025-DVA"
+        fullname: "Petr Kuznetcov Yaroslavovich",
+        faculty: "1025-DVA",
+        birthday: "1997.04.14 (26 лет)",
+        learningYears: "2006-2010 (закончил)"
     }
 ];
 
@@ -66,10 +69,19 @@ formStudend.addEventListener("submit", () => {
         }) 
     
         addStudent(studentName, studentSurname, studentMiddlename, studentBirthday, studentStartLearning, studentFaculty);
-        updateStudentList();
+        updateStudentList(studentsArr);
     }
+})
 
-    console.log(studentsArr);
+formSearch.addEventListener("submit", () => {
+    const fullname = inputSearchFullname.value;
+    const faculty = inputSearchFaculty.value;
+    const startLearningYear = inputSearchStartLearningYear.value;
+    const endLearningYear = inputSearchEndLearningYear.value;
+
+    studentFiltered = searchStudent(fullname, faculty, startLearningYear, endLearningYear);
+
+    updateStudentList(studentFiltered);
 })
 
 function inputsIsEmpty(inputs) {
@@ -148,24 +160,99 @@ function transformData(studentData) {
         studentData.startLearning = `${studentData.startLearning}-${endLearningYear} (${currentCourse} курс)`;
     }
     
-    return studentData
+
+    return {
+        fullname: [studentData.name, studentData.surname, studentData.middlename].join(" "),
+        faculty: studentData.faculty,
+        birthday: studentData.birthday,
+        learningYears: studentData.startLearning
+    }
 }
 
-function updateStudentList() {
+function searchStudent(fullname, faculty, startLearningYear, endLearningYear) {
+    students = [];
+
+    fullname = fullname.trim().split(" ");
+    faculty = faculty.trim();
+    startLearningYear = startLearningYear.trim();
+    endLearningYear = endLearningYear.trim();
+
+    studentsArr.forEach(elem => {
+        let include = false;
+
+        // search of name, surname, middlename
+        if (fullname != "") {
+            elem.fullname.split(" ").forEach(e => {
+                if (include) return
+
+                for (let i = 0; i < fullname.length; i++) {
+    
+                    if (e.toLowerCase().includes(fullname[i].toLowerCase())) {
+                        include = true
+                        return
+                    }
+                }
+            })
+            
+            if (!include) {
+                return
+            }
+        }
+        // search of faculty
+        if (faculty != "") {
+            
+            if (elem.faculty.toLowerCase().includes(faculty.toLowerCase())) {
+                console.log("faculty true");
+                include = true
+            } else {
+                return
+            }
+        }
+        // search of start learning year
+        if (startLearningYear != "") {
+
+            if (elem.learningYears.split("-")[0] == startLearningYear) {
+                console.log("startLearningYear true");
+                include = true
+            } else {
+                return
+            }
+        }
+        // search of end learning year
+        if (endLearningYear != "") {
+
+            if (elem.learningYears.split("-")[1] == endLearningYear) {
+                console.log("endLearningYear true");
+                include = true
+            } else {
+                return
+            }
+        }
+
+        if (include) {
+            students.push(elem);
+        }
+    })
+
+    return students
+}
+
+
+function updateStudentList(studentArray) {
     while (document.querySelector(".student")) {
         document.querySelector(".student").remove();
     };
 
     const studentListNode = document.querySelector(".student-list");
     
-    studentsArr.forEach(student => {
+    studentArray.forEach(student => {
         const studentNode = document.createElement("li");
         studentNode.classList.add("student", "student-list__item")
 
         // fullname
         const studentFullnameNode = document.createElement("span");
         studentFullnameNode.classList.add("student__fullname", "student__info");
-        studentFullnameNode.textContent = [student.name, student.surname, student.middlename].join(" ");
+        studentFullnameNode.textContent = student.fullname;
         studentNode.append(studentFullnameNode);
         // faculty
         const studentFacultyNode = document.createElement("span");
@@ -180,7 +267,7 @@ function updateStudentList() {
         studentNode.append(studentBirthdayNode);
         const studentStartLearningNode = document.createElement("span");
         studentStartLearningNode.classList.add("student__learning-years", "student__info");
-        studentStartLearningNode.textContent = student.startLearning;
+        studentStartLearningNode.textContent = student.learningYears;
         studentNode.append(studentStartLearningNode);
         // add student to list
         studentListNode.append(studentNode);
@@ -188,5 +275,5 @@ function updateStudentList() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    updateStudentList();
+    updateStudentList(studentsArr);
 })
