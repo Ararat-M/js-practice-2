@@ -79,7 +79,7 @@ function validateBirthday(input) {
     const minDate = new Date('1900-01-01T00:00:00');
     const birthday = new Date(`${input.value}T00:00:00`);
 
-    return validateInput(minDate < birthday, input);
+    return validateInput(minDate < birthday && birthday < today, input);
 }
 
 function validateInput(criteria, input) {
