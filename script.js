@@ -1,7 +1,7 @@
 const today = new Date();
 
 
-const formStudend = document.querySelector(".form-student");
+const formStudent = document.querySelector(".form-student");
 
 const inputName = document.querySelector("#form-student__input-name");
 const inputSurname = document.querySelector("#form-student__input-surname");
@@ -19,13 +19,19 @@ const inputSearchEndLearningYear = document.querySelector("#form-search__input-e
 
 const studentsArr = [ 
     {
-        fullname: "Ivanov Alex Ivanovich",
+        fullname: "Fedorov Alexey Ivanovich",
         faculty: "1042-DVA",
-        birthday: "2001.10.21 (21 лет)",
+        birthday: "1999.10.21 (23 лет)",
         learningYears: "2013-2017 (закончил)",
     }, 
     {
-        fullname: "Petr Kuznetcov Yaroslavovich",
+        fullname: "Kovalenko Anastasia Vladimirovna",
+        faculty: "1042-FFR",
+        birthday: "2001.10.21 (21 лет)",
+        learningYears: "2015-2019 (закончил)",
+    }, 
+    {
+        fullname: "Kuznetcov Petr Yaroslavovich",
         faculty: "1025-DVA",
         birthday: "1997.04.14 (26 лет)",
         learningYears: "2006-2010 (закончил)"
@@ -44,45 +50,6 @@ function addStudent(name, surname, middlename, birthday, startLearning, faculty)
     
     return studentsArr.push(student)
 }
-
-formStudend.addEventListener("submit", () => {
-    validate = true;
-
-    const inputs = [inputName, inputSurname, inputMiddlename, inputBirthday, inputStartLearning, inputFaculty];
-
-    // if (inputsIsEmpty(inputs)) validate = false;
-
-    // if (!validateBirthday(inputBirthday)) validate = false;
-
-    // if (!validateStartLearning(inputStartLearning)) validate = false;
-
-    if (validate) {
-        const studentName = inputName.value;
-        const studentSurname = inputSurname.value;
-        const studentMiddlename = inputMiddlename.value;
-        const studentBirthday = inputBirthday.value;
-        const studentStartLearning = inputStartLearning.value;
-        const studentFaculty = inputFaculty.value;
-
-        inputs.forEach(element => {
-            element.value = "";
-        }) 
-    
-        addStudent(studentName, studentSurname, studentMiddlename, studentBirthday, studentStartLearning, studentFaculty);
-        updateStudentList(studentsArr);
-    }
-})
-
-formSearch.addEventListener("submit", () => {
-    const fullname = inputSearchFullname.value;
-    const faculty = inputSearchFaculty.value;
-    const startLearningYear = inputSearchStartLearningYear.value;
-    const endLearningYear = inputSearchEndLearningYear.value;
-
-    studentFiltered = searchStudent(fullname, faculty, startLearningYear, endLearningYear);
-
-    updateStudentList(studentFiltered);
-})
 
 function inputsIsEmpty(inputs) {
     let result = false;
@@ -170,7 +137,7 @@ function transformData(studentData) {
 }
 
 function searchStudent(fullname, faculty, startLearningYear, endLearningYear) {
-    students = [];
+    studentFiltered = [];
 
     fullname = fullname.trim().split(" ");
     faculty = faculty.trim();
@@ -178,10 +145,10 @@ function searchStudent(fullname, faculty, startLearningYear, endLearningYear) {
     endLearningYear = endLearningYear.trim();
 
     studentsArr.forEach(elem => {
-        let include = false;
-
         // search of name, surname, middlename
         if (fullname != "") {
+            let include = false;
+
             elem.fullname.split(" ").forEach(e => {
                 if (include) return
 
@@ -193,7 +160,7 @@ function searchStudent(fullname, faculty, startLearningYear, endLearningYear) {
                     }
                 }
             })
-            
+
             if (!include) {
                 return
             }
@@ -203,7 +170,6 @@ function searchStudent(fullname, faculty, startLearningYear, endLearningYear) {
             
             if (elem.faculty.toLowerCase().includes(faculty.toLowerCase())) {
                 console.log("faculty true");
-                include = true
             } else {
                 return
             }
@@ -213,7 +179,6 @@ function searchStudent(fullname, faculty, startLearningYear, endLearningYear) {
 
             if (elem.learningYears.split("-")[0] == startLearningYear) {
                 console.log("startLearningYear true");
-                include = true
             } else {
                 return
             }
@@ -223,18 +188,15 @@ function searchStudent(fullname, faculty, startLearningYear, endLearningYear) {
 
             if (elem.learningYears.split("-")[1] == endLearningYear) {
                 console.log("endLearningYear true");
-                include = true
             } else {
                 return
             }
         }
-
-        if (include) {
-            students.push(elem);
-        }
+        
+        studentFiltered.push(elem);
     })
 
-    return students
+    return studentFiltered
 }
 
 
@@ -273,6 +235,100 @@ function updateStudentList(studentArray) {
         studentListNode.append(studentNode);
     })
 }
+
+formStudent.addEventListener("submit", () => {
+    validate = true;
+
+    const inputs = [inputName, inputSurname, inputMiddlename, inputBirthday, inputStartLearning, inputFaculty];
+
+    if (inputsIsEmpty(inputs)) validate = false;
+
+    if (!validateBirthday(inputBirthday)) validate = false;
+
+    if (!validateStartLearning(inputStartLearning)) validate = false;
+
+    if (validate) {
+        const studentName = inputName.value;
+        const studentSurname = inputSurname.value;
+        const studentMiddlename = inputMiddlename.value;
+        const studentBirthday = inputBirthday.value;
+        const studentStartLearning = inputStartLearning.value;
+        const studentFaculty = inputFaculty.value;
+
+        inputs.forEach(element => {
+            element.value = "";
+        }) 
+    
+        addStudent(studentName, studentSurname, studentMiddlename, studentBirthday, studentStartLearning, studentFaculty);
+        updateStudentList(studentsArr);
+    }
+})
+
+formSearch.addEventListener("submit", () => {
+    const fullname = inputSearchFullname.value;
+    const faculty = inputSearchFaculty.value;
+    const startLearningYear = inputSearchStartLearningYear.value;
+    const endLearningYear = inputSearchEndLearningYear.value;
+
+    studentFiltered = searchStudent(fullname, faculty, startLearningYear, endLearningYear);
+
+    updateStudentList(studentFiltered);
+})
+
+// sort fullname
+document.querySelector(".sort-panel__fullname").addEventListener("click", () => {
+    const arrSort = studentsArr.map(element => element).sort((a, b) => {
+        if (a.fullname > b.fullname) {
+            return 1;
+        }
+
+        if (a.fullname < b.fullname) {
+            return -1;
+        }
+        
+        return 0;
+    });
+
+    updateStudentList(arrSort)
+})
+// sort faculty
+document.querySelector(".sort-panel__faculty").addEventListener("click", () => {
+    const arrSort = studentsArr.map(element => element).sort((a, b) => {
+        if (a.faculty > b.faculty) {
+            return 1;
+        }
+
+        if (a.faculty < b.faculty) {
+            return -1;
+        }
+        
+        return 0;
+    });
+
+    updateStudentList(arrSort)
+})
+// sort birthday
+document.querySelector(".sort-panel__birthday").addEventListener("click", () => {
+    const arrSort = studentsArr.map(element => element).sort((a, b) => {
+        a = new Date(a.birthday.slice(0, 10).split("."));
+        b = new Date(b.birthday.slice(0, 10).split("."));
+        
+        return b - a;
+    });
+
+    updateStudentList(arrSort)
+})
+// sort learning years
+document.querySelector(".sort-panel__learning-years").addEventListener("click", () => {
+    const arrSort = studentsArr.map(element => element).sort((a, b) => {
+        a = new Date(a.learningYears.slice(0, 5));
+        b = new Date(b.learningYears.slice(0, 5));
+        
+        return b - a;
+    });
+
+    updateStudentList(arrSort)
+})
 
 document.addEventListener("DOMContentLoaded", () => {
     updateStudentList(studentsArr);
